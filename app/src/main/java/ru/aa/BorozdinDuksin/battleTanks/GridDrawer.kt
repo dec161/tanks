@@ -40,7 +40,7 @@ class GridDrawer(private val context: Context) {
             val verticalLine = View(context)
             val layoutParams = FrameLayout.LayoutParams(1, FrameLayout.LayoutParams.MATCH_PARENT)
             leftMargin += CELL_SIZE
-            layoutParams.topMargin = leftMargin
+            layoutParams.leftMargin = leftMargin
             verticalLine.layoutParams = layoutParams
             verticalLine.setBackgroundColor(Color.WHITE)
             allLines.add(verticalLine)
