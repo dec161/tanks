@@ -71,21 +71,19 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 
     private fun checkTankCanMoveThroughBorder(coordinate: Coordinate, myTank:View):Boolean{
-        return (coordinate.top >0 &&
-            coordinate.top +myTank.height < binding.container.height / CELL_SIZE* CELL_SIZE &&
+        return coordinate.top >0 &&
+            coordinate.top +myTank.height <= binding.container.height &&
             coordinate.left >0 &&
-            coordinate.left + myTank.width < binding.container.width / CELL_SIZE * CELL_SIZE
-
-                )
+            coordinate.left + myTank.width <= binding.container.width
     }
 
     private fun getElementByCoordinates(coordinate: Coordinate) =
         elementsOnContainer.firstOrNull { it.coordinate == coordinate }
 
     private fun checkTankCanMoveThroughMaterial(coordinate: Coordinate): Boolean {
-        getTankCoordinates(coordinate).forEach {
+        getTankCoordinates(coordinate).forEach { _ ->
             val element = getElementByCoordinates(coordinate)
-            if (element != null) return false
+            if (element != null && !element.material.tankCanGoThrough) return false
         }
         return true
     }
