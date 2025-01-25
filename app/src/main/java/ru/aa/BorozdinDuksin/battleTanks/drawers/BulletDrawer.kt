@@ -1,12 +1,9 @@
 package ru.aa.BorozdinDuksin.battleTanks.drawers
 
-
-
 import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.ThemedSpinnerAdapter
 import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
@@ -16,7 +13,7 @@ import ru.aa.BorozdinDuksin.battleTanks.utils.checkViewCanMoveThroughBorder
 private const val BULLET_HEIGHT = 15
 private const val BULLET_WIDTH = 15
 
-class BulletDrawer(val container: FrameLayout) {
+class BulletDrawer(private val container: FrameLayout) {
 
     fun makeBulletMove(myTank: View,currentDirection: Direction){
         Thread(Runnable {

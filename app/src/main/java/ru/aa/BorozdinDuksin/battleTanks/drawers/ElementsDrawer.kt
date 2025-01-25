@@ -3,14 +3,10 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.R
-import ru.aa.BorozdinDuksin.battleTanks.binding
-import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 
 class ElementsDrawer(val container: FrameLayout) {
