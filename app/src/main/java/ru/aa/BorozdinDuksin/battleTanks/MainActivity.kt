@@ -7,9 +7,6 @@ import android.view.KeyEvent.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.*
-import android.widget.FrameLayout
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.DOWN
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.UP
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.RIGHT
@@ -18,9 +15,7 @@ import ru.aa.BorozdinDuksin.battleTanks.databinding.ActivityMainBinding
 import ru.aa.BorozdinDuksin.battleTanks.drawers.BulletDrawer
 import ru.aa.BorozdinDuksin.battleTanks.drawers.ElementsDrawer
 import ru.aa.BorozdinDuksin.battleTanks.drawers.GridDrawer
-import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
-import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.drawers.TankDrawer
 
 
@@ -103,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             KEYCODE_DPAD_DOWN -> tankDrawer.move(binding.myTank,DOWN,elementsDrawer.elementsOnContainer)
             KEYCODE_DPAD_RIGHT -> tankDrawer.move(binding.myTank,RIGHT,elementsDrawer.elementsOnContainer)
             KEYCODE_DPAD_LEFT -> tankDrawer.move(binding.myTank,LEFT,elementsDrawer.elementsOnContainer)
-            KEYCODE_SPACE -> bulletDrawer.drawBullet(binding.myTank, tankDrawer.currentDirection)
+            KEYCODE_SPACE -> bulletDrawer.makeBulletMove(binding.myTank, tankDrawer.currentDirection)
         }
         return super.onKeyDown(keyCode, event)
     }
