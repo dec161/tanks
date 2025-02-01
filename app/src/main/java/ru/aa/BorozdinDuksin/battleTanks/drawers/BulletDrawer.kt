@@ -30,15 +30,15 @@ class BulletDrawer(private val container: FrameLayout) {
         if (!checkBulletThreadLive()) {
             bulletThread = Thread(Runnable {
                 val bullet = createBullet(myTank, currentDirection)
-                while(bullet.checkViewCanMoveThroughBorder(
+                while (bullet.checkViewCanMoveThroughBorder(
                         Coordinate(bullet.top, bullet.left)
                     ) && canBulletGoFurther
                 ) {
-                    when(currentDirection){
-                        Direction.UP ->(bullet.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
-                        Direction.DOWN ->(bullet.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
-                        Direction.LEFT ->(bullet.layoutParams as FrameLayout.LayoutParams).leftMargin -= BULLET_HEIGHT
-                        Direction.RIGHT ->(bullet.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
+                    when (currentDirection) {
+                        Direction.UP -> (bullet.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
+                        Direction.DOWN -> (bullet.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
+                        Direction.LEFT -> (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin -= BULLET_HEIGHT
+                        Direction.RIGHT -> (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
                     }
                     Thread.sleep(30)
                     chooseBehaviourInTermsOfDirections(
@@ -46,12 +46,14 @@ class BulletDrawer(private val container: FrameLayout) {
                         currentDirection,
                         Coordinate(
                             (bullet.layoutParams as FrameLayout.LayoutParams).topMargin,
-                            (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin))
-                    (container.context as Activity).runOnUiThread{
+                            (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin
+                        )
+                    )
+                    (container.context as Activity).runOnUiThread {
                         container.removeView(bullet)
-                            container.addView(bullet)
+                        container.addView(bullet)
                     }
-                   }
+                }
                 (container.context as Activity).runOnUiThread {
                     container.removeView(bullet)
                 }
@@ -67,11 +69,17 @@ class BulletDrawer(private val container: FrameLayout) {
     ) {
         when (currentDirection) {
             Direction.DOWN, Direction.UP -> {
-                compareCollections(elementsOnContainer, getCoordinatesForTopOrBottomDirection(bulletCoordinate))
+                compareCollections(
+                    elementsOnContainer,
+                    getCoordinatesForTopOrBottomDirection(bulletCoordinate)
+                )
             }
 
             Direction.LEFT, Direction.RIGHT -> {
-                compareCollections(elementsOnContainer, getCoordinatesForLeftOrRightDirection(bulletCoordinate))
+                compareCollections(
+                    elementsOnContainer,
+                    getCoordinatesForLeftOrRightDirection(bulletCoordinate)
+                )
             }
         }
     }
@@ -80,15 +88,11 @@ class BulletDrawer(private val container: FrameLayout) {
         elementsOnContainer: MutableList<Element>,
         detectedCoordinatesList: List<Coordinate>
     ) {
-        if (checkContainerContainsElements(
-                elementsOnContainer.map { it.coordinate },
-                detectedCoordinatesList
-           )
-        ) {
-           detectedCoordinatesList.forEach {
-               val element = getElementByCoordinates(it, elementsOnContainer)
-               removeElementsAndStopBullet(element, elementsOnContainer)
-           }
+        {
+            detectedCoordinatesList.forEach {
+                val element = getElementByCoordinates(it, elementsOnContainer)
+                removeElementsAndStopBullet(element, elementsOnContainer)
+            }
         }
     }
 
@@ -96,10 +100,23 @@ class BulletDrawer(private val container: FrameLayout) {
         element: Element?,
         elementsOnContainer: MutableList<Element>
     ) {
-        canBulletGoFurther = false
+        if (element == null) {
+            return
+        }
+        if (element.material.bulletCanGoThrought)
+        {
+            return
+        }
+        stopBullet()
+        if (element.material.simpleBulletCanDestroy) {
         removeView(element)
         elementsOnContainer.remove(element)
+        }
     }
+
+private fun stopBullet() {
+        canBulletGoFurther = false
+}
 
     private fun removeView(element: Element?) {
         val activity = container.context as Activity
@@ -110,13 +127,13 @@ class BulletDrawer(private val container: FrameLayout) {
         }
     }
 
-    private fun checkContainerContainsElements(
-        elementsOnContainer: List<Coordinate>,
-        detectedCoordinatesList: List<Coordinate>
-    ): Boolean {
-        return detectedCoordinatesList.any { elementsOnContainer.contains(it) }
-    }
-
+ //   private fun checkContainerContainsElements(
+//        elementsOnContainer: List<Coordinate>,
+  //      detectedCoordinatesList: List<Coordinate>
+ //   ): Boolean {
+ //       return detectedCoordinatesList.any { elementsOnContainer.contains(it) }
+ //   }
+//
     private fun getCoordinatesForTopOrBottomDirection(bulletCoordinate: Coordinate): List<Coordinate> {
         val leftCell = bulletCoordinate.left - bulletCoordinate.left % CELL_SIZE
         val rightCell = leftCell + CELL_SIZE
