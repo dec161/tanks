@@ -1,6 +1,7 @@
 package ru.aa.BorozdinDuksin.battleTanks.utils
 
 import android.view.View
+import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
@@ -14,5 +15,19 @@ fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate):Boolean{
 
 fun getElementByCoordinates(
     coordinate: Coordinate, elementsOnContainer: List<Element>
-) =
-    elementsOnContainer.firstOrNull { it.coordinate == coordinate }
+): Element? {
+    for (element in elementsOnContainer) {
+        for (height in 0 until element.height) {
+            for (width in 0 until element.width) {
+                val searchingCoordinate = Coordinate(
+                    top = element.coordinate.top + height * CELL_SIZE,
+                    left = element.coordinate.left + width * CELL_SIZE
+                )
+                if (coordinate == searchingCoordinate) {
+                    return element
+                }
+            }
+        }
+    }
+    return null
+}
