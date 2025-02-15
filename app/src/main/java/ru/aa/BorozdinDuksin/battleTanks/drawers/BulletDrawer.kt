@@ -11,6 +11,7 @@ import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.utils.checkViewCanMoveThroughBorder
 import ru.aa.BorozdinDuksin.battleTanks.utils.getElementByCoordinates
+import ru.aa.BorozdinDuksin.battleTanks.utils.runOnUiThread
 
 private const val BULLET_HEIGHT = 15
 private const val BULLET_WIDTH = 15
@@ -49,12 +50,12 @@ class BulletDrawer(private val container: FrameLayout) {
                             (bullet.layoutParams as FrameLayout.LayoutParams).leftMargin
                         )
                     )
-                    (container.context as Activity).runOnUiThread {
+                    container.runOnUiThread {
                         container.removeView(bullet)
                         container.addView(bullet)
                     }
                 }
-                (container.context as Activity).runOnUiThread {
+                container.runOnUiThread {
                     container.removeView(bullet)
                 }
             })
@@ -88,12 +89,12 @@ class BulletDrawer(private val container: FrameLayout) {
         elementsOnContainer: MutableList<Element>,
         detectedCoordinatesList: List<Coordinate>
     ) {
-        {
-            detectedCoordinatesList.forEach {
-                val element = getElementByCoordinates(it, elementsOnContainer)
-                removeElementsAndStopBullet(element, elementsOnContainer)
-            }
+        //{
+        detectedCoordinatesList.forEach {
+            val element = getElementByCoordinates(it, elementsOnContainer)
+            removeElementsAndStopBullet(element, elementsOnContainer)
         }
+        //}
     }
 
     private fun removeElementsAndStopBullet(
@@ -114,9 +115,9 @@ class BulletDrawer(private val container: FrameLayout) {
         }
     }
 
-private fun stopBullet() {
+    private fun stopBullet() {
         canBulletGoFurther = false
-}
+    }
 
     private fun removeView(element: Element?) {
         val activity = container.context as Activity
