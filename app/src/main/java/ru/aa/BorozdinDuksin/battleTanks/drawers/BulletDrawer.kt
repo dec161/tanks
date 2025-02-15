@@ -103,7 +103,7 @@ class BulletDrawer(private val container: FrameLayout) {
         if (element == null) {
             return
         }
-        if (element.material.bulletCanGoThrought)
+        if (element.material.bulletCanGoThrough)
         {
             return
         }

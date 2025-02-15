@@ -3,16 +3,11 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
-import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.utils.getElementByCoordinates
-
-
-
 
 class ElementsDrawer(val container: FrameLayout) {
     var currentMaterial = Material.EMPTY
@@ -26,6 +21,21 @@ class ElementsDrawer(val container: FrameLayout) {
             eraseView(coordinate)
         } else {
             drawOrReplaceView(coordinate)
+        }
+    }
+
+    fun changeElementsVisibility(editMode: Boolean) {
+        elementsOnContainer
+            .filter { it.material.visibleInEditableMode }
+            .forEach { setViewIdVisibility(it.viewId, editMode) }
+    }
+
+    private fun setViewIdVisibility(viewId: Int, editMode: Boolean) {
+        val view = container.findViewById<View>(viewId)
+        if (editMode) {
+            view.visibility = View.VISIBLE
+        } else {
+            view.visibility = View.GONE
         }
     }
 
@@ -51,8 +61,6 @@ class ElementsDrawer(val container: FrameLayout) {
             drawView((element.coordinate))
         }
     }
-
-
 
     private fun replaceView(coordinate: Coordinate) {
         eraseView(coordinate)
@@ -105,9 +113,9 @@ class ElementsDrawer(val container: FrameLayout) {
     }
 */
     private fun removeUnwantedInstances(){
-       if (currentMaterial.elementsAmoutOnScreen!=0){
+       if (currentMaterial.elementsAmountOnScreen!=0){
            val erasingElement = elementsOnContainer.filter { it.material==currentMaterial }
-           if (erasingElement.size >= currentMaterial.elementsAmoutOnScreen){
+           if (erasingElement.size >= currentMaterial.elementsAmountOnScreen){
                eraseView(erasingElement[0].coordinate)
            }
        }

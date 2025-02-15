@@ -18,7 +18,6 @@ import ru.aa.BorozdinDuksin.battleTanks.drawers.GridDrawer
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.drawers.TankDrawer
 
-
 const val CELL_SIZE = 50
 
 lateinit var binding: ActivityMainBinding
@@ -71,21 +70,29 @@ class MainActivity : AppCompatActivity() {
             return@setOnTouchListener true
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
+        hideSettings()
     }
 
-    private fun switchEditMode (){
-        if(editMode){
-            gridDrawer.removeGrid()
-            binding.materialsContainer.visibility = INVISIBLE
-
+    private fun switchEditMode() {
+        editMode = !editMode
+        if (editMode) {
+            showSettings()
+        } else {
+            hideSettings()
         }
-        else{
-            gridDrawer.drawGrid()
-            binding.materialsContainer.visibility = VISIBLE
-        }
-        editMode =!editMode
     }
 
+    private fun showSettings() {
+        gridDrawer.drawGrid()
+        binding.materialsContainer.visibility = VISIBLE
+        elementsDrawer.changeElementsVisibility(true)
+    }
+
+    private fun hideSettings() {
+        gridDrawer.removeGrid()
+        binding.materialsContainer.visibility = GONE
+        elementsDrawer.changeElementsVisibility(false)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.settings, menu)
@@ -119,6 +126,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
-
 }
