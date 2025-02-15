@@ -9,13 +9,14 @@ android:background="@color/black">
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/myTank"
-        android:layout_width="@dimen/cell_size"
-        android:layout_height="@dimen/cell_size"
-        app:srcCompat="@drawable/tank"
-        />
+        android:layout_height="match_parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/materials_container"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
     </FrameLayout>
     <LinearLayout
         android:layout_width="wrap_content"

@@ -2,7 +2,7 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 
 import android.widget.FrameLayout
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
-import ru.aa.BorozdinDuksin.battleTanks.binding
+//import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.enums.CELLS_TANKS_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material.ENEMY_TANK
@@ -56,9 +56,7 @@ class EnemyDrawer(
         val enemyTank = Tank(
             Element(
             material = ENEMY_TANK,
-            coordinate = currentCoordinate,
-            width = ENEMY_TANK.width,
-            height = ENEMY_TANK.height
+            coordinate = currentCoordinate
             ), Direction.DOWN
         )
         enemyTank.element.drawElement(container)

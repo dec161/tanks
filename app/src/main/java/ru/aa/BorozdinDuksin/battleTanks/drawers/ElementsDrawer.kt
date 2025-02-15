@@ -1,9 +1,9 @@
 package ru.aa.BorozdinDuksin.battleTanks.drawers
 
-import android.app.Activity
+//import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
+//import android.widget.ImageView
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
@@ -29,7 +29,7 @@ class ElementsDrawer(val container: FrameLayout) {
     private fun drawOrReplaceView(coordinate: Coordinate) {
         val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContainer)
         if (viewOnCoordinate == null) {
-            drawView(coordinate)
+            createElementDrawView(coordinate)
             return
         }
         if (viewOnCoordinate.material != currentMaterial) {
@@ -44,13 +44,13 @@ class ElementsDrawer(val container: FrameLayout) {
         }
         for (element in elements){
             currentMaterial = element.material
-            drawView((element.coordinate))
+            drawElement(element)
         }
     }
 
     private fun replaceView(coordinate: Coordinate) {
         eraseView(coordinate)
-        drawView(coordinate)
+        createElementDrawView(coordinate)
     }
 
     private fun eraseView(coordinate: Coordinate) {
@@ -88,34 +88,26 @@ class ElementsDrawer(val container: FrameLayout) {
         return elements
     }
 
-   /* private fun removeIfSingleInstance() {
-        if (!currentMaterial.canExistOnlyOne) {
-            return
-        }
-
-        elementsOnContainer.firstOrNull { it.material == currentMaterial }?.coordinate?.let {
-            eraseView(it)
-        }
-    }
-*/
     private fun removeUnwantedInstances(){
-       if (currentMaterial.elementsAmountOnScreen!=0){
-           val erasingElement = elementsOnContainer.filter { it.material==currentMaterial }
-           if (erasingElement.size >= currentMaterial.elementsAmountOnScreen){
+       if (currentMaterial.elementsAmountOnScreen != 0){
+           val erasingElement = elementsOnContainer.filter { it.material == currentMaterial }
+           if (erasingElement.size >= currentMaterial.elementsAmountOnScreen) {
                eraseView(erasingElement[0].coordinate)
            }
        }
     }
 
-    private fun drawView(coordinate: Coordinate) {
+    private fun drawElement(element: Element) {
         removeUnwantedInstances()
-        val element = Element(
-            material = currentMaterial,
-            coordinate = coordinate,
-            width = currentMaterial.width,
-            height = currentMaterial.height
-        )
         element.drawElement(container)
         elementsOnContainer.add(element)
+    }
+
+    private fun createElementDrawView(coordinate: Coordinate) {
+        val element = Element(
+            material = currentMaterial,
+            coordinate = coordinate
+        )
+        drawElement(element)
     }
 }
