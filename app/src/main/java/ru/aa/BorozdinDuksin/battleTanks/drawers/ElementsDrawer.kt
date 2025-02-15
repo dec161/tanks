@@ -24,21 +24,6 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
-    fun changeElementsVisibility(editMode: Boolean) {
-        elementsOnContainer
-            .filter { it.material.visibleInEditableMode }
-            .forEach { setViewIdVisibility(it.viewId, editMode) }
-    }
-
-    private fun setViewIdVisibility(viewId: Int, editMode: Boolean) {
-        val view = container.findViewById<View>(viewId)
-        if (editMode) {
-            view.visibility = View.VISIBLE
-        } else {
-            view.visibility = View.GONE
-        }
-    }
-
     private fun drawOrReplaceView(coordinate: Coordinate) {
         val viewOnCoordinate = getElementByCoordinates(coordinate, elementsOnContainer)
         if (viewOnCoordinate == null) {
@@ -51,8 +36,7 @@ class ElementsDrawer(val container: FrameLayout) {
 
     }
 
-    fun drawElementsList(elements: List<Element>?)
-    {
+    fun drawElementsList(elements: List<Element>?) {
         if (elements == null){
             return
         }

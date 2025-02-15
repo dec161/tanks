@@ -12,11 +12,8 @@ import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.UP
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.RIGHT
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.LEFT
 import ru.aa.BorozdinDuksin.battleTanks.databinding.ActivityMainBinding
-import ru.aa.BorozdinDuksin.battleTanks.drawers.BulletDrawer
-import ru.aa.BorozdinDuksin.battleTanks.drawers.ElementsDrawer
-import ru.aa.BorozdinDuksin.battleTanks.drawers.GridDrawer
+import ru.aa.BorozdinDuksin.battleTanks.drawers.*
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
-import ru.aa.BorozdinDuksin.battleTanks.drawers.TankDrawer
 
 const val CELL_SIZE = 50
 
@@ -40,8 +37,12 @@ class MainActivity : AppCompatActivity() {
         BulletDrawer(binding.container)
     }
 
-    private val levelStorage by lazy{
+    private val levelStorage by lazy {
         LevelStorage (this)
+    }
+
+    private val enemyDrawer by lazy {
+        EnemyDrawer(binding.container)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +59,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.editorGrass.setOnClickListener { elementsDrawer.currentMaterial = Material.GRASS }
         binding.editorEagle.setOnClickListener { elementsDrawer.currentMaterial = Material.EAGLE }
-        binding.editorEnemyRespawn.setOnClickListener{
-            elementsDrawer.currentMaterial =Material.ENEMY_TANK_RESPAWN
-        }
-        binding.editorPlayerRespawn.setOnClickListener{
-            elementsDrawer.currentMaterial =Material.PLAYER_TANK_RESPAWN
-        }
 
         binding.container.setOnTouchListener { _, event ->
             elementsDrawer.onTouchContainer(event.x, event.y)
@@ -85,13 +80,11 @@ class MainActivity : AppCompatActivity() {
     private fun showSettings() {
         gridDrawer.drawGrid()
         binding.materialsContainer.visibility = VISIBLE
-        elementsDrawer.changeElementsVisibility(true)
     }
 
     private fun hideSettings() {
         gridDrawer.removeGrid()
         binding.materialsContainer.visibility = GONE
-        elementsDrawer.changeElementsVisibility(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
