@@ -61,7 +61,7 @@ enum class Material(
         CELLS_EAGLE_HEIGHT,
         R.drawable.eagle
     ),
-    ENEMY_TANK_RESPAWN(
+    /*ENEMY_TANK_RESPAWN(
         true,
         true,
         false,
@@ -78,7 +78,7 @@ enum class Material(
         CELLS_TANKS_SIZE,
         CELLS_TANKS_SIZE,
         R.drawable.tank
-    ),
+    ),*/
     ENEMY_TANK(
         false,
         false,
