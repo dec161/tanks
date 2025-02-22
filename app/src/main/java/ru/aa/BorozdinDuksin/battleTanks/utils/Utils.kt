@@ -8,6 +8,10 @@ import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
+import ru.aa.BorozdinDuksin.battleTanks.models.Tank
+import kotlin.random.Random
+
+const val TOTAL_PERCENT = 100
 
 fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate):Boolean{
     return coordinate.top >= 0 &&
@@ -35,6 +39,10 @@ fun getElementByCoordinates(
     return null
 }
 
+fun getTankByCoordinates(coordinate: Coordinate, tankList: List<Tank>): Element? {
+    return getElementByCoordinates(coordinate, tankList.map { it.element })
+}
+
 fun Element.drawElement(container: FrameLayout) {
     val view = ImageView(container.context)
     val layoutParams = FrameLayout.LayoutParams(
@@ -56,4 +64,8 @@ fun FrameLayout.runOnUiThread(block: () -> Unit) {
     (this.context as Activity).runOnUiThread {
         block()
     }
+}
+
+fun checkIfChanceBiggerThanRandom(percentChance: Int): Boolean {
+    return Random.nextInt(TOTAL_PERCENT) <= percentChance
 }
