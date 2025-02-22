@@ -7,8 +7,10 @@ import android.widget.ImageView
 import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
+import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
+import ru.aa.BorozdinDuksin.battleTanks.models.Tank
 import ru.aa.BorozdinDuksin.battleTanks.utils.checkViewCanMoveThroughBorder
 import ru.aa.BorozdinDuksin.battleTanks.utils.getElementByCoordinates
 import ru.aa.BorozdinDuksin.battleTanks.utils.runOnUiThread
@@ -19,18 +21,21 @@ private const val BULLET_WIDTH = 15
 class BulletDrawer(private val container: FrameLayout) {
     private var canBulletGoFurther = true
     private var bulletThread: Thread? = null
+    private lateinit var tank: Tank
 
     private fun checkBulletThreadLive() = bulletThread != null && bulletThread!!.isAlive
 
     fun makeBulletMove(
-        myTank: View,
-        currentDirection: Direction,
+        myTank: Tank,
         elementsOnContainer: MutableList<Element>
     ) {
         canBulletGoFurther = true
+        this.tank = tank
+        val currentDirection = tank.direction
         if (!checkBulletThreadLive()) {
             bulletThread = Thread(Runnable {
-                val bullet = createBullet(myTank, currentDirection)
+                val view = container.findViewById<View>(this.tank.element.viewId) ?: return@Runnable
+                val bullet = createBullet(view, currentDirection)
                 while (bullet.checkViewCanMoveThroughBorder(
                         Coordinate(bullet.top, bullet.left)
                     ) && canBulletGoFurther
@@ -95,23 +100,28 @@ class BulletDrawer(private val container: FrameLayout) {
             removeElementsAndStopBullet(element, elementsOnContainer)
         }
         //}
+        for (coordinate in detectedCoordinatesList) {
+            val element = getElementByCoordinates(coordinate, elementsOnContainer)
+            if (element == tank.element) continue
+
+            removeElementsAndStopBullet(element, elementsOnContainer)
+        }
     }
 
     private fun removeElementsAndStopBullet(
         element: Element?,
         elementsOnContainer: MutableList<Element>
     ) {
-        if (element == null) {
-            return
-        }
-        if (element.material.bulletCanGoThrough)
-        {
-            return
-        }
+        if (element == null || element.material.bulletCanGoThrough) return
+
         stopBullet()
+
+        if (tank.element.material == Material.ENEMY_TANK && element.material == Material.ENEMY_TANK)
+            return
+
         if (element.material.simpleBulletCanDestroy) {
-        removeView(element)
-        elementsOnContainer.remove(element)
+            removeView(element)
+            elementsOnContainer.remove(element)
         }
     }
 
