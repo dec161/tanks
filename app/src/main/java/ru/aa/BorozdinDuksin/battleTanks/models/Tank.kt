@@ -5,18 +5,16 @@ import android.widget.FrameLayout
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.drawers.BulletDrawer
+import ru.aa.BorozdinDuksin.battleTanks.drawers.EnemyDrawer
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
-import ru.aa.BorozdinDuksin.battleTanks.utils.checkIfChanceBiggerThanRandom
-import ru.aa.BorozdinDuksin.battleTanks.utils.checkViewCanMoveThroughBorder
-import ru.aa.BorozdinDuksin.battleTanks.utils.getTankByCoordinates
-import ru.aa.BorozdinDuksin.battleTanks.utils.runOnUiThread
+import ru.aa.BorozdinDuksin.battleTanks.utils.*
 import kotlin.random.Random
 
 class Tank(
     val element: Element,
     var direction: Direction,
-    val bulletDrawer: BulletDrawer
+    private val enemyDrawer: EnemyDrawer
 ) {
     fun move(
         direction: Direction,
@@ -24,13 +22,12 @@ class Tank(
         elementsOnContainer:List<Element>
     ) {
         val view = container.findViewById<View>(element.viewId) ?: return
-        val currentCoordinate = getTankCurrentCoordinate(view)
+        val currentCoordinate = view.getViewCoordinate()
         this.direction = direction
         view.rotation = direction.rotation
         val nextCoordinate = getTankNextCoordinate(view)
-        if (view.checkViewCanMoveThroughBorder(
-                nextCoordinate
-            ) && element.checkTankCanMoveThroughMaterial(nextCoordinate, elementsOnContainer)
+        if (view.checkViewCanMoveThroughBorder()
+            && element.checkTankCanMoveThroughMaterial(nextCoordinate, elementsOnContainer)
         ) {
             emulateViewMoving(container, view)
             element.coordinate = nextCoordinate
@@ -64,13 +61,6 @@ class Tank(
         }
     }
 
-    private fun getTankCurrentCoordinate(tank: View): Coordinate {
-        return Coordinate(
-            (tank.layoutParams as FrameLayout.LayoutParams).topMargin,
-            (tank.layoutParams as FrameLayout.LayoutParams).leftMargin
-        )
-    }
-
     private fun getTankNextCoordinate(view: View): Coordinate {
         val layoutParams = view.layoutParams as FrameLayout.LayoutParams
         when(direction){
@@ -100,8 +90,7 @@ class Tank(
     ): Boolean {
         for (anyCoordinate in getTankCoordinates(coordinate)) {
             val element = getElementByCoordinates(coordinate, elementsOnContainer)
-                ?: getTankByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
-            //if (element == null) element = getTankByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
+                ?: getTankByCoordinates(anyCoordinate, enemyDrawer.tanks)
             if (element != null && !element.material.tankCanGoThrough) {
                 if (this == element) continue
                 return false

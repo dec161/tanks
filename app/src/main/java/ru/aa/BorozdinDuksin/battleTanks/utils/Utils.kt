@@ -13,12 +13,20 @@ import kotlin.random.Random
 
 const val TOTAL_PERCENT = 100
 
-fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate):Boolean{
+/*fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate): Boolean {
     return coordinate.top >= 0 &&
             coordinate.top + this.height <= binding.container.height &&
             coordinate.left >= 0 &&
             coordinate.left + this.width <= binding.container.width
-}
+}*/
+
+fun View.checkViewCanMoveThroughBorder(): Boolean =
+    this.getViewCoordinate().let {
+        it.top >= 0 &&
+        it.top + this.height <= binding.container.height &&
+        it.left >= 0 &&
+        it.left + this.width <= binding.container.width
+    }
 
 fun getElementByCoordinates(
     coordinate: Coordinate, elementsOnContainer: List<Element>
@@ -39,9 +47,8 @@ fun getElementByCoordinates(
     return null
 }
 
-fun getTankByCoordinates(coordinate: Coordinate, tankList: List<Tank>): Element? {
-    return getElementByCoordinates(coordinate, tankList.map { it.element })
-}
+fun getTankByCoordinates(coordinate: Coordinate, tankList: List<Tank>): Element? =
+    getElementByCoordinates(coordinate, tankList.map { it.element })
 
 fun Element.drawElement(container: FrameLayout) {
     val view = ImageView(container.context)
@@ -69,3 +76,9 @@ fun FrameLayout.runOnUiThread(block: () -> Unit) {
 fun checkIfChanceBiggerThanRandom(percentChance: Int): Boolean {
     return Random.nextInt(TOTAL_PERCENT) <= percentChance
 }
+
+fun View.getViewCoordinate(): Coordinate =
+    Coordinate(
+        (this.layoutParams as FrameLayout.LayoutParams).topMargin,
+        (this.layoutParams as FrameLayout.LayoutParams).leftMargin
+    )
