@@ -2,12 +2,17 @@ package ru.aa.BorozdinDuksin.battleTanks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContentInfo
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.contentcapture.ContentCaptureCondition
+import androidx.core.content.ContextCompat
+import ru.aa.BorozdinDuksin.battleTanks.GameCore.isPlaying
+import ru.aa.BorozdinDuksin.battleTanks.GameCore.startOrPauseTheGame
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.DOWN
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.UP
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.RIGHT
@@ -26,9 +31,11 @@ lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var editMode =false
+    private lateinit var item: MenuItem
 
     private lateinit var playerTank: Tank
     private lateinit var eagle: Element
+
 
     private val bulletDrawer by lazy {
         BulletDrawer(
@@ -151,6 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.settings, menu)
+        item = menu!!.findItem(R.id.menu_play)
         return true
     }
 
@@ -168,7 +176,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.menu_play -> {
-                startTheGame()
+                if(editMode)  {
+                    return true
+                }
+                startOrPauseTheGame()
+                if (isPlaying()){
+                    startTheGame()
+                }
+                else{
+                    pauseTheGame()
+                }
                 true
             }
 
@@ -176,14 +193,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startTheGame() {
-        if (editMode) return
+    private fun pauseTheGame()
+    {
+        item.icon = ContextCompat.getDrawable(this , R.drawable.ic_play)
+        GameCore.pauseTheGame()
+    }
 
+    override fun onPause(){
+        super.onPause()
+        pauseTheGame()
+    }
+
+
+    private fun startTheGame() {
         enemyDrawer.startEnemyCreation()
-        enemyDrawer.moveEnemyTanks()
+        item.icon = ContextCompat.getDrawable(this , R.drawable.ic_baseline_pause_24)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (!isPlaying()){
+            return super.onKeyDown(keyCode, event)
+        }
         when(keyCode){
             KEYCODE_DPAD_UP -> move(UP)
             KEYCODE_DPAD_DOWN -> move(DOWN)

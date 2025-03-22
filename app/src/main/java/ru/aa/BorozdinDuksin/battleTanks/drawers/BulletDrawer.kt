@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
+import ru.aa.BorozdinDuksin.battleTanks.GameCore.isPlaying
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Bullet
@@ -40,6 +41,8 @@ class BulletDrawer(
     private fun moveAllBullets() {
         Thread(Runnable {
             while (true) {
+                if (!isPlaying())
+                    continue
                 interactWithAllBullets()
                 Thread.sleep(30)
             }
