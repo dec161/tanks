@@ -19,6 +19,8 @@ private const val MAX_ENEMY_AMOUNT = 20
 class EnemyDrawer(
     private val container: FrameLayout,
     private val elements: MutableList<Element>,
+    private val soundManager: SoundManager,
+    private val gameCore: GameCore
 ) {
     private val respawnList: List<Coordinate>
     private var enemyAmount = 0
@@ -72,7 +74,7 @@ class EnemyDrawer(
     private fun moveEnemyTanks() {
         Thread(Runnable {
             while (true) {
-                if (!GameCore.isPlaying())
+                if (!gameCore.isPlaying())
                     continue
                 goThroughAllTanks()
                 Thread.sleep(400)
@@ -82,9 +84,9 @@ class EnemyDrawer(
 
     private fun goThroughAllTanks() {
         if (tanks.isNotEmpty()) {
-            SoundManager.tankMove()
+            soundManager.tankMove()
         } else {
-            SoundManager.tankStop()
+            soundManager.tankStop()
         }
 
         tanks.toList().forEach {
@@ -101,7 +103,7 @@ class EnemyDrawer(
         gameStarted=true
         Thread(Runnable {
             while (enemyAmount < MAX_ENEMY_AMOUNT) {
-                if (!GameCore.isPlaying())
+                if (!gameCore.isPlaying())
                     continue
                 drawEnemy()
                 enemyAmount++
