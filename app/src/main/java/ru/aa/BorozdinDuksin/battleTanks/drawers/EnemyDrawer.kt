@@ -3,6 +3,7 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 import android.widget.FrameLayout
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.GameCore
+import ru.aa.BorozdinDuksin.battleTanks.SoundManager
 //import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.enums.CELLS_TANKS_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
@@ -80,6 +81,12 @@ class EnemyDrawer(
     }
 
     private fun goThroughAllTanks() {
+        if (tanks.isNotEmpty()) {
+            SoundManager.tankMove()
+        } else {
+            SoundManager.tankStop()
+        }
+
         tanks.toList().forEach {
             it.move(it.direction, container, elements)
             if (checkIfChanceBiggerThanRandom(10))
@@ -105,8 +112,6 @@ class EnemyDrawer(
     }
 
     fun removeTank(tankIndex: Int) {
-        if (tankIndex < 0) return
-
         tanks.removeAt(tankIndex)
     }
 }
