@@ -47,14 +47,16 @@ class BulletDrawer(
     }
 
     private fun interactWithAllBullets() {
-        for (bullet in allBullets) {
-            val view = bullet.view
+        for (bullet in allBullets.toList()) {
+
+            bullet.stopIntersectingBullets()
 
             if (!bullet.canBulletGoFurther()) {
                 stopBullet(bullet)
                 continue
             }
 
+            val view = bullet.view
             when (bullet.direction) {
                 Direction.UP -> (view.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
                 Direction.DOWN -> (view.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
@@ -70,19 +72,35 @@ class BulletDrawer(
             }
         }
 
+        removeInconsistentBullets()
+    }
+
+    private fun removeInconsistentBullets() {
         val removingList = allBullets.filter { !it.canMoveFurther }
         removingList.forEach {
-            stopBullet(it)
             container.runOnUiThread {
                 container.removeView(it.view)
             }
         }
-        
         allBullets.removeAll(removingList)
     }
 
+    private fun Bullet.stopIntersectingBullets() {
+        val bulletCoordinate = this.view.getViewCoordinate()
+        for (bulletInList in allBullets) {
+            val coordinateList = bulletInList.view.getViewCoordinate()
+            if (this == bulletInList) continue
+
+            if (coordinateList == bulletCoordinate) {
+                stopBullet(this)
+                stopBullet(bulletInList)
+                return
+            }
+        }
+    }
+
     private fun Bullet.canBulletGoFurther() =
-        this.view.checkViewCanMoveThroughBorder() && this.canMoveFurther
+        this.view.checkViewCanMoveThroughBorder(this.view.getViewCoordinate()) && this.canMoveFurther
 
     private fun chooseBehaviourInTermsOfDirections(bullet: Bullet) {
         when (bullet.direction) {

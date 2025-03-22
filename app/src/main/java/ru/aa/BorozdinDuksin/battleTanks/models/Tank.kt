@@ -26,7 +26,7 @@ class Tank(
         this.direction = direction
         view.rotation = direction.rotation
         val nextCoordinate = getTankNextCoordinate(view)
-        if (view.checkViewCanMoveThroughBorder()
+        if (view.checkViewCanMoveThroughBorder(nextCoordinate)
             && element.checkTankCanMoveThroughMaterial(nextCoordinate, elementsOnContainer)
         ) {
             emulateViewMoving(container, view)

@@ -13,25 +13,25 @@ import kotlin.random.Random
 
 const val TOTAL_PERCENT = 100
 
-/*fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate): Boolean {
+fun View.checkViewCanMoveThroughBorder(coordinate: Coordinate): Boolean {
     return coordinate.top >= 0 &&
             coordinate.top + this.height <= binding.container.height &&
             coordinate.left >= 0 &&
             coordinate.left + this.width <= binding.container.width
-}*/
+}
 
-fun View.checkViewCanMoveThroughBorder(): Boolean =
+/*fun View.checkViewCanMoveThroughBorder(): Boolean =
     this.getViewCoordinate().let {
         it.top >= 0 &&
         it.top + this.height <= binding.container.height &&
         it.left >= 0 &&
         it.left + this.width <= binding.container.width
-    }
+    }*/
 
 fun getElementByCoordinates(
     coordinate: Coordinate, elementsOnContainer: List<Element>
 ): Element? {
-    for (element in elementsOnContainer) {
+    for (element in elementsOnContainer.toList()) {
         for (height in 0 until element.height) {
             for (width in 0 until element.width) {
                 val searchingCoordinate = Coordinate(
