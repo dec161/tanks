@@ -3,7 +3,7 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 import android.widget.FrameLayout
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.GameCore
-import ru.aa.BorozdinDuksin.battleTanks.SoundManager
+import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
 //import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.enums.CELLS_TANKS_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
@@ -19,7 +19,7 @@ private const val MAX_ENEMY_AMOUNT = 20
 class EnemyDrawer(
     private val container: FrameLayout,
     private val elements: MutableList<Element>,
-    private val soundManager: SoundManager,
+    private val soundManager: MainSoundPlayer,
     private val gameCore: GameCore
 ) {
     private val respawnList: List<Coordinate>

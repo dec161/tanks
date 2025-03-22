@@ -8,7 +8,7 @@ import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.GameCore
 
-import ru.aa.BorozdinDuksin.battleTanks.SoundManager
+import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Bullet
@@ -16,7 +16,6 @@ import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.models.Tank
 import ru.aa.BorozdinDuksin.battleTanks.utils.*
-import java.security.PrivateKey
 
 private const val BULLET_HEIGHT = 15
 private const val BULLET_WIDTH = 15
@@ -25,7 +24,7 @@ class BulletDrawer(
     private val container: FrameLayout,
     private val elements: MutableList<Element>,
     private val enemyDrawer: EnemyDrawer,
-    private val soundManager: SoundManager,
+    private val soundManager: MainSoundPlayer,
     private val gameCore: GameCore
 
 ) {

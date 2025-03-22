@@ -2,14 +2,12 @@ package ru.aa.BorozdinDuksin.battleTanks
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContentInfo
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.view.contentcapture.ContentCaptureCondition
 import androidx.core.content.ContextCompat
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.DOWN
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.UP
@@ -22,6 +20,7 @@ import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.models.Tank
+import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
 
 const val CELL_SIZE = 50
 
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val soundManager by lazy {
-        SoundManager(this)
+        MainSoundPlayer(this)
 
     }
 
@@ -110,8 +109,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
+        soundManager.loadSounds()
         supportActionBar?.title = "Menu"
 
         binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }
