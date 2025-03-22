@@ -3,8 +3,8 @@ package ru.aa.BorozdinDuksin.battleTanks.drawers
 //import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
+import ru.aa.BorozdinDuksin.battleTanks.activities.CELL_SIZE
 //import android.widget.ImageView
-import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.enums.Material
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element

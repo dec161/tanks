@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.FrameLayout
-import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
-import ru.aa.BorozdinDuksin.battleTanks.binding
+import ru.aa.BorozdinDuksin.battleTanks.activities.CELL_SIZE
+import ru.aa.BorozdinDuksin.battleTanks.activities.binding
 
 class GridDrawer(private val container: FrameLayout) {
     private val allLines = mutableListOf<View>()

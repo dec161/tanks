@@ -1,8 +1,8 @@
 package ru.aa.BorozdinDuksin.battleTanks.drawers
 
 import android.widget.FrameLayout
-import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.GameCore
+import ru.aa.BorozdinDuksin.battleTanks.activities.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
 //import ru.aa.BorozdinDuksin.battleTanks.binding
 import ru.aa.BorozdinDuksin.battleTanks.enums.CELLS_TANKS_SIZE
@@ -11,6 +11,7 @@ import ru.aa.BorozdinDuksin.battleTanks.enums.Material.ENEMY_TANK
 import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.models.Tank
+import ru.aa.BorozdinDuksin.battleTanks.sounds.GameSound
 import ru.aa.BorozdinDuksin.battleTanks.utils.checkIfChanceBiggerThanRandom
 import ru.aa.BorozdinDuksin.battleTanks.utils.drawElement
 
@@ -113,7 +114,16 @@ class EnemyDrawer(
         moveEnemyTanks()
     }
 
+    fun isAllTanksDestroyed():Boolean{
+        return enemyAmount == MAX_ENEMY_AMOUNT && tanks.toList().isEmpty()
+    }
+
+    fun getPlayerScore() = enemyAmount * 100
+
     fun removeTank(tankIndex: Int) {
         tanks.removeAt(tankIndex)
+        if(isAllTanksDestroyed()){
+            gameCore.playerWon(getPlayerScore())
+        }
     }
 }

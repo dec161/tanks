@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import ru.aa.BorozdinDuksin.battleTanks.R
-import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
 import ru.aa.BorozdinDuksin.battleTanks.GameCore
+import ru.aa.BorozdinDuksin.battleTanks.activities.CELL_SIZE
 
 import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction

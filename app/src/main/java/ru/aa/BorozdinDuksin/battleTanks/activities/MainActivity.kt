@@ -1,5 +1,7 @@
-package ru.aa.BorozdinDuksin.battleTanks
+package ru.aa.BorozdinDuksin.battleTanks.activities
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -9,6 +11,9 @@ import android.view.MenuItem
 import android.view.View.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
+import ru.aa.BorozdinDuksin.battleTanks.GameCore
+import ru.aa.BorozdinDuksin.battleTanks.LevelStorage
+import ru.aa.BorozdinDuksin.battleTanks.R
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.DOWN
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.UP
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction.RIGHT
@@ -253,5 +258,12 @@ class MainActivity : AppCompatActivity() {
     private fun onButtonReleased() {
         if (enemyDrawer.tanks.isEmpty())
             soundManager.tankStop()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+       if(resultCode == Activity.RESULT_OK && requestCode == SCORE_REQUEST_CODE){
+           recreate()
+    }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

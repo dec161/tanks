@@ -2,8 +2,8 @@ package ru.aa.BorozdinDuksin.battleTanks.models
 
 import android.view.View
 import android.widget.FrameLayout
-import ru.aa.BorozdinDuksin.battleTanks.CELL_SIZE
-import ru.aa.BorozdinDuksin.battleTanks.binding
+import ru.aa.BorozdinDuksin.battleTanks.activities.CELL_SIZE
+import ru.aa.BorozdinDuksin.battleTanks.activities.binding
 import ru.aa.BorozdinDuksin.battleTanks.drawers.BulletDrawer
 import ru.aa.BorozdinDuksin.battleTanks.drawers.EnemyDrawer
 import ru.aa.BorozdinDuksin.battleTanks.enums.Direction
