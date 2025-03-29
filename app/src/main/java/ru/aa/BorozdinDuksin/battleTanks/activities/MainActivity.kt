@@ -26,13 +26,14 @@ import ru.aa.BorozdinDuksin.battleTanks.models.Coordinate
 import ru.aa.BorozdinDuksin.battleTanks.models.Element
 import ru.aa.BorozdinDuksin.battleTanks.models.Tank
 import ru.aa.BorozdinDuksin.battleTanks.sounds.MainSoundPlayer
+import ru.aa.BorozdinDuksin.battleTanks.utils.ProgressIndicator
 
 const val CELL_SIZE = 50
 
 lateinit var binding: ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private var editMode =false
+class MainActivity : AppCompatActivity(), ProgressIndicator {
+    private var editMode = false
     private lateinit var item: MenuItem
 
     private lateinit var playerTank: Tank
@@ -48,13 +49,13 @@ class MainActivity : AppCompatActivity() {
             gameCore
         )
     }
+
     private val gameCore by lazy {
         GameCore(this)
     }
 
     private val soundManager by lazy {
-        MainSoundPlayer(this)
-
+        MainSoundPlayer(this, this)
     }
 
     private fun createTank(elementWidth: Int, elementHeight: Int): Tank {
@@ -265,5 +266,17 @@ class MainActivity : AppCompatActivity() {
            recreate()
     }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun showProgress() {
+        binding.container.visibility = INVISIBLE
+        binding.totalContainer.setBackgroundResource(R.color.gray)
+        binding.initTitle.visibility = VISIBLE
+    }
+
+    override fun dismissProgress() {
+        binding.container.visibility = VISIBLE
+        binding.totalContainer.setBackgroundResource(R.color.black)
+        binding.initTitle.visibility = GONE
     }
 }

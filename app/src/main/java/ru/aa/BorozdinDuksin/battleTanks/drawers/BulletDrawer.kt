@@ -125,8 +125,9 @@ class BulletDrawer(
 
     private fun compareCollections(detectedCoordinatesList: List<Coordinate>, bullet: Bullet) {
         for (coordinate in detectedCoordinatesList) {
-            val element = getElementByCoordinates(coordinate, elements)
-                ?: getTankByCoordinates(coordinate, enemyDrawer.tanks)
+            val element = getTankByCoordinates(coordinate, enemyDrawer.tanks)
+                ?: getElementByCoordinates(coordinate, elements)
+
             if (element == bullet.tank.element) continue
 
             removeElementsAndStopBullet(element, bullet)
@@ -134,25 +135,33 @@ class BulletDrawer(
     }
 
     private fun removeElementsAndStopBullet(element: Element?, bullet: Bullet) {
-        if (element == null || element.material.bulletCanGoThrough) return
+        if (element == null) return
 
-        stopBullet(bullet)
-
-        if (bullet.tank.element.material == Material.ENEMY_TANK && element.material == Material.ENEMY_TANK)
+        if (bullet.tank.element.material == Material.ENEMY_TANK
+            && element.material == Material.ENEMY_TANK) {
+            stopBullet(bullet)
             return
+        }
+
+        if (element.material.bulletCanGoThrough) return
 
         if (element.material.simpleBulletCanDestroy) {
             removeView(element)
             removeElement(element)
+            stopGameIfNecessary(element)
             removeTank(element)
         }
+
+        stopBullet(bullet)
     }
 
-    private fun removeElement(element: Element){
+    private fun removeElement(element: Element?) {
         elements.remove(element)
-        if (element.material == Material.PLAYER_TANK || element.material == Material.EAGLE) {
+    }
+
+    private fun stopGameIfNecessary(element: Element) {
+        if (element.material == Material.PLAYER_TANK || element.material == Material.EAGLE)
             gameCore.destroyPlayerOrBase()
-        }
     }
 
 
