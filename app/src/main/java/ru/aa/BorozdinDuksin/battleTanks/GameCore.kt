@@ -2,6 +2,7 @@ package ru.aa.BorozdinDuksin.battleTanks
 
 import android.app.Activity
 import android.view.View
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import ru.aa.BorozdinDuksin.battleTanks.activities.SCORE_REQUEST_CODE
 import ru.aa.BorozdinDuksin.battleTanks.activities.ScoreActivity
@@ -23,11 +24,16 @@ class GameCore(private val activity: Activity){
         isPlay = false
     }
 
-    fun destroyPlayerOrBase(){
+    fun destroyPlayerOrBase(score: Int) {
         isPlayerOrBaseDestroyed = true
         pauseTheGame()
-        animateEndGame()
+        animateEndGame(score)
     }
+
+    fun resumeTheGame(){
+        isPlay = true
+    }
+
 
     fun playerWon(score: Int){
         isPlayerWin= true
@@ -36,11 +42,25 @@ class GameCore(private val activity: Activity){
         )
     }
 
-    private fun animateEndGame(){
+    private fun animateEndGame(score: Int){
         activity.runOnUiThread {
             binding.gameOverText.visibility = View.VISIBLE
             val slideUp = AnimationUtils.loadAnimation(activity, R.anim.slide_up)
             binding.gameOverText.startAnimation(slideUp)
+            slideUp.setAnimationListener(object : Animation.AnimationListener{
+                override fun onAnimationStart(animation: Animation?) {
+
+                }
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    activity.startActivityForResult(
+                        ScoreActivity.createIntent(activity, score),
+                        SCORE_REQUEST_CODE
+                    )
+                }
+            })
         }
     }
 }
