@@ -57,7 +57,6 @@ class EnemyDrawer(
     }
 
     private fun drawEnemy() {
-        return
         var index = respawnList.indexOf(currentCoordinate) + 1
         if (index == respawnList.size) {
             index = 0
