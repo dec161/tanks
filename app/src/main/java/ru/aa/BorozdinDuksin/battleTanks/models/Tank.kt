@@ -75,6 +75,7 @@ class Tank(
             Direction.RIGHT ->{
                 (view.layoutParams as FrameLayout.LayoutParams).leftMargin += CELL_SIZE
             }
+
             Direction.LEFT ->{
                 (view.layoutParams as FrameLayout.LayoutParams).leftMargin -= CELL_SIZE
             }
@@ -89,7 +90,7 @@ class Tank(
         elementsOnContainer:List<Element>
     ): Boolean {
         for (anyCoordinate in getTankCoordinates(coordinate)) {
-            val element = getElementByCoordinates(coordinate, elementsOnContainer)
+            val element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
                 ?: getTankByCoordinates(anyCoordinate, enemyDrawer.tanks)
             if (element != null && !element.material.tankCanGoThrough) {
                 if (this == element) continue
@@ -107,7 +108,7 @@ class Tank(
         coordinateList.add(
             Coordinate(
                 topLeftCoordinate.top + CELL_SIZE,
-                topLeftCoordinate.left
+                topLeftCoordinate.left + CELL_SIZE
             )
         )
         return coordinateList

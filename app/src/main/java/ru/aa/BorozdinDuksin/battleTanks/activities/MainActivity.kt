@@ -247,10 +247,10 @@ class MainActivity : AppCompatActivity(), ProgressIndicator {
             return super.onKeyDown(keyCode, event)
         }
         when(keyCode){
-            KEYCODE_DPAD_UP -> move(UP)
-            KEYCODE_DPAD_DOWN -> move(DOWN)
-            KEYCODE_DPAD_RIGHT -> move(RIGHT)
-            KEYCODE_DPAD_LEFT -> move(LEFT)
+            KEYCODE_DPAD_UP -> onButtonPressed(UP)
+            KEYCODE_DPAD_DOWN -> onButtonPressed(DOWN)
+            KEYCODE_DPAD_RIGHT -> onButtonPressed(RIGHT)
+            KEYCODE_DPAD_LEFT -> onButtonPressed(LEFT)
             KEYCODE_SPACE -> bulletDrawer.addNewBulletForTank(playerTank)
         }
         return super.onKeyDown(keyCode, event)
@@ -273,7 +273,7 @@ class MainActivity : AppCompatActivity(), ProgressIndicator {
 
     private fun onButtonPressed(direction: Direction) {
         soundManager.tankMove()
-        playerTank.move(direction, binding.container, elementsDrawer.elementsOnContainer)
+        move(direction)
     }
 
     private fun onButtonReleased() {
