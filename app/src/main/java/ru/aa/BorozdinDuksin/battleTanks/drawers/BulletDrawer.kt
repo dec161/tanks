@@ -70,7 +70,7 @@ class BulletDrawer(
                 Direction.UP -> (view.layoutParams as FrameLayout.LayoutParams).topMargin -= BULLET_HEIGHT
                 Direction.DOWN -> (view.layoutParams as FrameLayout.LayoutParams).topMargin += BULLET_HEIGHT
                 Direction.LEFT -> (view.layoutParams as FrameLayout.LayoutParams).leftMargin -= BULLET_HEIGHT
-                Direction.RIGHT -> (view.layoutParams as FrameLayout.LayoutParams).rightMargin += BULLET_HEIGHT
+                Direction.RIGHT -> (view.layoutParams as FrameLayout.LayoutParams).leftMargin += BULLET_HEIGHT
             }
 
             chooseBehaviourInTermsOfDirections(bullet)
